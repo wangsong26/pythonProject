@@ -1,0 +1,1485 @@
+N7K1(config-if)# sh run
+
+!Command: show running-config
+!Time: Tue Oct  6 20:22:50 2020
+
+version 7.0(3)I7(1)
+hostname N7K1
+vdc N7K1 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 511
+  limit-resource u4route-mem minimum 248 maximum 248
+  limit-resource u6route-mem minimum 96 maximum 96
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature tacacs+
+feature bgp
+feature eigrp
+feature udld
+feature interface-vlan
+feature lacp
+
+no password strength-check
+username admin password 5 $5$tNCXV2qQ$akT77A5oKeebadtn6rKjeeviWNHw9fMRN/0dxVjsUhB  role network-admin
+ip domain-lookup
+ip access-list 99
+  10 permit ip 10.32.0.40/32 any 
+  20 permit ip 10.32.10.20/32 any 
+  30 permit ip 10.32.10.95/32 any 
+  40 permit ip 10.32.13.190/32 any 
+  50 permit ip 10.32.13.189/32 any 
+  60 permit ip 10.32.20.237/32 any 
+  70 permit ip 10.32.13.198/32 any 
+  80 permit ip 10.32.13.197/32 any 
+  90 permit ip 10.32.13.194/32 any 
+  100 permit ip 10.32.13.193/32 any 
+  110 permit ip 10.32.13.206/32 any 
+  120 permit ip 10.32.13.205/32 any 
+  130 permit ip 10.32.13.202/32 any 
+  140 permit ip 10.32.13.201/32 any 
+  150 permit ip 10.32.13.210/32 any 
+  160 permit ip 10.32.13.209/32 any 
+  170 permit ip 10.34.3.0/24 any 
+  180 permit ip 10.34.4.0/24 any 
+  190 permit ip 10.34.5.0/24 any 
+  200 permit ip 10.32.10.0/24 any 
+  210 permit ip 10.32.5.153/32 any 
+  220 permit ip 10.32.5.58/32 any 
+  230 permit ip 10.32.5.152/32 any 
+  240 permit ip 10.32.5.38/32 any 
+ip access-list SNMP
+  10 permit ip 10.32.22.38/32 any 
+  20 permit ip 10.32.10.20/32 any 
+  30 permit ip 10.32.175.245/32 any 
+  40 permit ip 10.32.128.81/32 any 
+copp profile strict
+snmp-server user admin network-admin auth md5 0xe32227d62c99198308b4dcdb2561cc20 priv 0xe32227d62c99198308b4dcdb2561cc20 localizedkey
+rmon event 1 description FATAL(1) owner PMON@FATAL
+rmon event 2 description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 description ERROR(3) owner PMON@ERROR
+rmon event 4 description WARNING(4) owner PMON@WARNING
+rmon event 5 description INFORMATION(5) owner PMON@INFO
+
+vlan 1
+
+ip community-list standard HJL_COMMU seq 1 permit 64515:2 
+ip community-list standard JQ_COMMU seq 1 permit 64514:2 
+route-map HJL_LP permit 10
+  match community HJL_COMMU 
+  set local-preference 200
+route-map HJL_LP permit 1000
+route-map JN_COMMU permit 10
+  set community 64513:2 
+route-map JQ_LP permit 10
+  match community JQ_COMMU 
+  set local-preference 200
+route-map JQ_LP permit 1000
+key chain 1
+  key 1
+    key-string 7 073e2d765f
+vrf context management
+
+
+interface Vlan1
+
+interface port-channel11
+  description TO_ZQDS1_JY_HXJY_7710_1
+
+interface port-channel12
+  description TO_ZQDS1_JY_HXJY_7710_2
+
+interface port-channel13
+  description TO_ZQDS1_JY__BS1_56128P_1
+
+interface port-channel14
+  description TO_ZQDS1_JY__BS1_56128P_2
+
+interface port-channel15
+  description TO_ZQDS1_JY__BS2_56128P_1
+
+interface port-channel16
+  description TO_ZQDS1_JY__BS2_56128P_2
+
+interface port-channel17
+  description TO_ZQDS1_JY__DMZ_56128P_1
+
+interface port-channel18
+  description TO_ZQDS1_JY__DMZ_56128P_2
+
+interface port-channel19
+  description TO_ZQDS1_JY__WSJY_56128P_1
+
+interface port-channel20
+  description TO_ZQDS1_JY__WSJY_56128P_2
+
+interface port-channel21
+  description To-C9K 
+
+interface port-channel100
+  description TO_ZQDS1_JY_COR_7710_2
+  no switchport
+  ip address 10.68.16.1/30
+  ip router eigrp 144
+  ip authentication mode eigrp 144 md5
+  ip authentication key-chain eigrp 144 1
+
+interface Ethernet1/1
+  description TO_ZQDS1_JY_COR_7710_2-E1/24
+  no switchport
+  channel-group 100 mode active
+  no shutdown
+
+interface Ethernet1/2
+  description ASR-LT
+  no switchport
+  speed 1000
+  ip address 10.34.27.1/30
+  ip router eigrp 144
+  no shutdown
+
+interface Ethernet1/3
+  description ASR-YD
+  no switchport
+  speed 1000
+  ip address 10.34.27.17/30
+  no shutdown
+
+interface Ethernet1/4
+  description ASR-DX
+  no switchport
+  speed 1000
+  ip address 10.34.27.9/30
+  ip router eigrp 144
+  no shutdown
+
+interface Ethernet1/5
+
+interface Ethernet1/6
+
+interface Ethernet1/7
+
+interface Ethernet1/8
+
+interface Ethernet1/9
+
+interface Ethernet1/10
+
+interface Ethernet1/11
+
+interface Ethernet1/12
+
+interface Ethernet1/13
+
+interface Ethernet1/14
+
+interface Ethernet1/15
+
+interface Ethernet1/16
+
+interface Ethernet1/17
+
+interface Ethernet1/18
+
+interface Ethernet1/19
+
+interface Ethernet1/20
+
+interface Ethernet1/21
+
+interface Ethernet1/22
+
+interface Ethernet1/23
+
+interface Ethernet1/24
+
+interface Ethernet1/25
+
+interface Ethernet1/26
+
+interface Ethernet1/27
+
+interface Ethernet1/28
+
+interface Ethernet1/29
+
+interface Ethernet1/30
+
+interface Ethernet1/31
+
+interface Ethernet1/32
+
+interface Ethernet1/33
+
+interface Ethernet1/34
+
+interface Ethernet1/35
+
+interface Ethernet1/36
+
+interface Ethernet1/37
+
+interface Ethernet1/38
+
+interface Ethernet1/39
+
+interface Ethernet1/40
+
+interface Ethernet1/41
+
+interface Ethernet1/42
+
+interface Ethernet1/43
+
+interface Ethernet1/44
+
+interface Ethernet1/45
+
+interface Ethernet1/46
+
+interface Ethernet1/47
+
+interface Ethernet1/48
+
+interface Ethernet1/49
+
+interface Ethernet1/50
+
+interface Ethernet1/51
+
+interface Ethernet1/52
+
+interface Ethernet1/53
+
+interface Ethernet1/54
+
+interface Ethernet1/55
+
+interface Ethernet1/56
+
+interface Ethernet1/57
+
+interface Ethernet1/58
+
+interface Ethernet1/59
+
+interface Ethernet1/60
+
+interface Ethernet1/61
+
+interface Ethernet1/62
+
+interface Ethernet1/63
+
+interface Ethernet1/64
+
+interface mgmt0
+  vrf member management
+
+interface loopback0
+  ip address 10.68.0.251/32
+  ip router eigrp 144
+line console
+line vty
+ip route 10.32.0.0/16 Null0
+ip route 10.34.0.0/24 Null0
+ip route 10.34.1.0/24 Null0
+ip route 10.34.2.0/24 Null0
+ip route 10.34.27.0/24 Null0
+ip route 10.64.0.0/15 Null0
+ip route 10.67.8.0/21 Null0
+ip route 10.68.0.0/21 Null0
+ip route 10.68.16.0/24 Null0
+ip route 10.68.64.0/20 Null0
+ip route 10.77.0.0/16 Null0
+router eigrp 144
+  eigrp router-id 10.68.0.251
+router bgp 64513
+  router-id 10.68.0.251
+  timers bgp 5 15
+  address-family ipv4 unicast
+    network 10.32.0.0/16 route-map JN_COMMU
+    network 10.34.0.0/24 route-map JN_COMMU
+    network 10.34.1.0/24 route-map JN_COMMU
+    network 10.34.2.0/24 route-map JN_COMMU
+    network 10.34.27.0/24 route-map JN_COMMU
+    network 10.64.0.0/15 route-map JN_COMMU
+    network 10.67.8.0/21 route-map JN_COMMU
+    network 10.68.0.0/21 route-map JN_COMMU
+    network 10.68.0.251/32 route-map JN_COMMU
+    network 10.68.12.0/24 route-map JN_COMMU
+    network 10.68.16.0/24 route-map JN_COMMU
+    network 10.68.48.0/20 route-map JN_COMMU
+    network 10.68.64.0/20 route-map JN_COMMU
+    network 10.69.0.0/16 route-map JN_COMMU
+    network 10.77.0.0/16 route-map JN_COMMU
+    maximum-paths 3
+    distance 200 200 200
+  neighbor 10.34.27.2
+    remote-as 64512
+    description ASR1001-LT
+    password 3 3cae22acac2f36fe
+    ebgp-multihop 255
+    address-family ipv4 unicast
+      send-community
+      soft-reconfiguration inbound always
+  neighbor 10.34.27.10
+    remote-as 64512
+    description ASR1002-JY-DX
+    password 3 3cae22acac2f36fe
+    ebgp-multihop 255
+    address-family ipv4 unicast
+      send-community
+      soft-reconfiguration inbound always
+  neighbor 10.34.27.18
+    remote-as 64512
+    description JY_Router_ASR1002YD_JR12_26U
+    password 3 3cae22acac2f36fe
+    address-family ipv4 unicast
+      send-community
+      soft-reconfiguration inbound always
+  neighbor 10.68.0.252
+    remote-as 64513
+    description ZQDS1_JY_COR_7710_2
+    password 3 3cae22acac2f36fe
+    update-source loopback0
+    address-family ipv4 unicast
+      send-community
+      next-hop-self
+      
+
+
+
+
+
+N7K2# show run
+
+!Command: show running-config
+!Time: Tue Oct  6 20:23:24 2020
+
+version 7.0(3)I7(1)
+hostname N7K2
+vdc N7K2 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 511
+  limit-resource u4route-mem minimum 248 maximum 248
+  limit-resource u6route-mem minimum 96 maximum 96
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature tacacs+
+feature bgp
+feature eigrp
+feature udld
+feature interface-vlan
+feature lacp
+
+no password strength-check
+username admin password 5 $5$pP054rWV$FJ/YCp3SQTDXFJtGk6RWCaRvPYw7WP72I6I8Gfig5y4  role network-admin
+ip domain-lookup
+ip access-list 99
+  10 permit ip 10.32.0.40/32 any 
+  20 permit ip 10.32.10.20/32 any 
+  30 permit ip 10.32.10.95/32 any 
+  40 permit ip 10.32.13.190/32 any 
+  50 permit ip 10.32.13.189/32 any 
+  60 permit ip 10.32.20.237/32 any 
+  70 permit ip 10.32.13.198/32 any 
+  80 permit ip 10.32.13.197/32 any 
+  90 permit ip 10.32.13.194/32 any 
+  100 permit ip 10.32.13.193/32 any 
+  110 permit ip 10.32.13.206/32 any 
+  120 permit ip 10.32.13.205/32 any 
+  130 permit ip 10.32.13.202/32 any 
+  140 permit ip 10.32.13.201/32 any 
+  150 permit ip 10.32.13.210/32 any 
+  160 permit ip 10.32.13.209/32 any 
+  170 permit ip 10.34.3.0/24 any 
+  180 permit ip 10.34.4.0/24 any 
+  190 permit ip 10.34.5.0/24 any 
+  200 permit ip 10.32.10.0/24 any 
+  210 permit ip 10.32.5.153/32 any 
+  220 permit ip 10.32.5.58/32 any 
+  230 permit ip 10.32.5.152/32 any 
+  240 permit ip 10.32.5.38/32 any 
+ip access-list SNMP
+  10 permit ip 10.32.22.38/32 any 
+  20 permit ip 10.32.10.20/32 any 
+  30 permit ip 10.32.175.245/32 any 
+  40 permit ip 10.32.128.81/32 any 
+snmp-server user admin network-admin auth md5 0x50af78546a32f3aaca78ccb6c3d8ffaf priv 0x50af78546a32f3aaca78ccb6c3d8ffaf localizedkey
+rmon event 1 description FATAL(1) owner PMON@FATAL
+rmon event 2 description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 description ERROR(3) owner PMON@ERROR
+rmon event 4 description WARNING(4) owner PMON@WARNING
+rmon event 5 description INFORMATION(5) owner PMON@INFO
+
+vlan 1
+
+ip community-list standard HJL_COMMU seq 1 permit 64515:2 
+ip community-list standard JQ_COMMU seq 1 permit 64514:2 
+route-map HJL_LP permit 10
+  match community HJL_COMMU 
+  set local-preference 200
+route-map HJL_LP permit 1000
+route-map JN_COMMU permit 10
+  set community 64513:2 
+route-map JQ_LP permit 10
+  match community JQ_COMMU 
+  set local-preference 200
+route-map JQ_LP permit 1000
+key chain 1
+  key 1
+    key-string 7 073e2d765f
+vrf context management
+
+
+interface Vlan1
+
+interface port-channel100
+  description TO_ZQDS1_JY_COR_7710_1
+  no switchport
+  ip address 10.68.16.2/30
+  ip router eigrp 144
+  ip authentication mode eigrp 144 md5
+  ip authentication key-chain eigrp 144 1
+
+interface Ethernet1/1
+  no switchport
+  channel-group 100 mode active
+  no shutdown
+
+interface Ethernet1/2
+  description ASR-LT
+  no switchport
+  speed 1000
+  ip address 10.34.27.5/30
+  ip router eigrp 144
+  no shutdown
+
+interface Ethernet1/3
+  description ASR-YD
+  no switchport
+  speed 1000
+  ip address 10.34.27.21/30
+  ip router eigrp 144
+  no shutdown
+
+interface Ethernet1/4
+  description ASR-DX
+  no switchport
+  speed 1000
+  ip address 10.34.27.13/30
+  ip router eigrp 144
+  no shutdown
+
+interface Ethernet1/5
+
+interface Ethernet1/6
+
+interface Ethernet1/7
+
+interface Ethernet1/8
+
+interface Ethernet1/9
+
+interface Ethernet1/10
+
+interface Ethernet1/11
+
+interface Ethernet1/12
+
+interface Ethernet1/13
+
+interface Ethernet1/14
+
+interface Ethernet1/15
+
+interface Ethernet1/16
+
+interface Ethernet1/17
+
+interface Ethernet1/18
+
+interface Ethernet1/19
+
+interface Ethernet1/20
+
+interface Ethernet1/21
+
+interface Ethernet1/22
+
+interface Ethernet1/23
+
+interface Ethernet1/24
+
+interface Ethernet1/25
+
+interface Ethernet1/26
+
+interface Ethernet1/27
+
+interface Ethernet1/28
+
+interface Ethernet1/29
+
+interface Ethernet1/30
+
+interface Ethernet1/31
+
+interface Ethernet1/32
+
+interface Ethernet1/33
+
+interface Ethernet1/34
+
+interface Ethernet1/35
+
+interface Ethernet1/36
+
+interface Ethernet1/37
+
+interface Ethernet1/38
+
+interface Ethernet1/39
+
+interface Ethernet1/40
+
+interface Ethernet1/41
+
+interface Ethernet1/42
+
+interface Ethernet1/43
+
+interface Ethernet1/44
+
+interface Ethernet1/45
+
+interface Ethernet1/46
+
+interface Ethernet1/47
+
+interface Ethernet1/48
+
+interface Ethernet1/49
+
+interface Ethernet1/50
+
+interface Ethernet1/51
+
+interface Ethernet1/52
+
+interface Ethernet1/53
+
+interface Ethernet1/54
+
+interface Ethernet1/55
+
+interface Ethernet1/56
+
+interface Ethernet1/57
+
+interface Ethernet1/58
+
+interface Ethernet1/59
+
+interface Ethernet1/60
+
+interface Ethernet1/61
+
+interface Ethernet1/62
+
+interface Ethernet1/63
+
+interface Ethernet1/64
+
+interface mgmt0
+  vrf member management
+
+interface loopback0
+  ip address 10.68.0.252/32
+  ip router eigrp 144
+line console
+line vty
+ip route 10.32.0.0/16 Null0
+ip route 10.34.0.0/24 Null0
+ip route 10.34.1.0/24 Null0
+ip route 10.34.2.0/24 Null0
+ip route 10.34.27.0/24 Null0
+ip route 10.64.0.0/15 Null0
+ip route 10.67.8.0/21 Null0
+ip route 10.68.0.0/21 Null0
+ip route 10.68.16.0/24 Null0
+ip route 10.68.64.0/20 Null0
+ip route 10.77.0.0/16 Null0
+router eigrp 144
+  eigrp router-id 10.68.0.252
+router bgp 64513
+  router-id 10.68.0.252
+  timers bgp 5 15
+  address-family ipv4 unicast
+    network 10.32.0.0/16 route-map JN_COMMU
+    network 10.34.0.0/24 route-map JN_COMMU
+    network 10.34.1.0/24 route-map JN_COMMU
+    network 10.34.2.0/24 route-map JN_COMMU
+    network 10.34.27.0/24 route-map JN_COMMU
+    network 10.64.0.0/15 route-map JN_COMMU
+    network 10.67.8.0/21 route-map JN_COMMU
+    network 10.68.0.0/21 route-map JN_COMMU
+    network 10.68.0.252/32 route-map JN_COMMU
+    network 10.68.12.0/24 route-map JN_COMMU
+    network 10.68.16.0/24 route-map JN_COMMU
+    network 10.68.48.0/20 route-map JN_COMMU
+    network 10.68.64.0/20 route-map JN_COMMU
+    network 10.69.0.0/16 route-map JN_COMMU
+    network 10.77.0.0/16 route-map JN_COMMU
+    maximum-paths 3
+    distance 200 200 200
+  neighbor 10.34.27.6
+    remote-as 64512
+    description ASR1001-LT
+    password 3 3cae22acac2f36fe
+    address-family ipv4 unicast
+      send-community
+  neighbor 10.34.27.14
+    remote-as 64512
+    description ASR1002-JY-DX
+    password 3 3cae22acac2f36fe
+    address-family ipv4 unicast
+      send-community
+  neighbor 10.34.27.22
+    remote-as 64512
+    description JY_Router_ASR1002YD_JR12_26U
+    password 3 3cae22acac2f36fe
+    address-family ipv4 unicast
+      send-community
+  neighbor 10.68.0.251
+    remote-as 64513
+    description ZQDS1_JY_COR_7710_1
+    password 3 3cae22acac2f36fe
+    update-source loopback0
+    address-family ipv4 unicast
+      send-community
+      next-hop-self
+
+
+
+
+JN-LT#show run
+Building configuration...
+
+Current configuration : 4144 bytes
+!
+! Last configuration change at 17:12:59 UTC Tue Oct 6 2020
+!
+version 16.3
+service config
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname JN-LT
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+
+
+
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 93P6SRIZ0NH
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+cdp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!         
+! 
+! 
+! 
+!
+!
+interface Loopback0
+ ip address 10.34.0.250 255.255.255.255
+!
+interface Loopback1
+ description OSPF_BGP_router-id
+ ip address 10.34.6.1 255.255.255.255
+ ip ospf 100 area 0
+ ip ospf cost 1
+!
+interface GigabitEthernet1
+ ip address dhcp
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ description connect  N7K1
+ ip address 10.34.27.2 255.255.255.252
+ speed 1000
+ no negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ description connect to N7K2
+ ip address 10.34.27.6 255.255.255.252
+ speed 1000
+ no negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ description To_JY_Router_ASR1002YD_JR12_26U _G0/0/2
+ ip address 10.34.20.1 255.255.255.252
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 QlZq
+ ip ospf network point-to-point
+ ip ospf hello-interval 5
+ ip ospf 100 area 0
+ ip ospf cost 1
+ speed 1000
+ no negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet5
+ description To_ASR1002-JY-DX_G0/0/4
+ ip address 10.34.20.5 255.255.255.252
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 QlZq
+ ip ospf network point-to-point
+ ip ospf hello-interval 5
+ ip ospf 100 area 0
+ ip ospf cost 1
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+!
+router eigrp 144
+ network 10.34.0.250 0.0.0.0
+ network 10.34.8.16 0.0.0.3
+ network 10.34.8.32 0.0.0.3
+ network 10.34.8.56 0.0.0.3
+ network 10.34.8.96 0.0.0.3
+ network 10.34.8.104 0.0.0.3
+ network 10.34.8.136 0.0.0.3
+ network 10.34.8.152 0.0.0.3
+ network 10.34.8.176 0.0.0.3
+ network 10.34.8.213 0.0.0.0
+ network 10.34.8.240 0.0.0.3
+ network 10.34.9.28 0.0.0.3
+ network 10.34.9.36 0.0.0.3
+ network 10.34.9.44 0.0.0.3
+ network 10.34.9.100 0.0.0.3
+ network 10.34.9.180 0.0.0.3
+ network 10.34.9.236 0.0.0.3
+ network 10.34.9.244 0.0.0.3
+ network 10.34.9.252 0.0.0.3
+ network 10.34.10.20 0.0.0.3
+ network 10.34.10.84 0.0.0.3
+ network 10.34.10.132 0.0.0.3
+ network 10.34.10.144 0.0.0.3
+ network 10.34.10.160 0.0.0.3
+ network 10.34.10.168 0.0.0.3
+ network 10.34.10.208 0.0.0.3
+ network 10.34.11.28 0.0.0.3
+ network 10.34.11.64 0.0.0.3
+ network 10.34.11.200 0.0.0.3
+ network 10.34.14.152 0.0.0.3
+ network 10.34.27.0 0.0.0.3
+ network 10.34.27.4 0.0.0.3
+ eigrp router-id 10.34.0.250
+!
+router ospf 100
+ router-id 10.34.6.1
+!
+router bgp 64512
+ bgp router-id 10.34.6.1
+ bgp log-neighbor-changes
+ network 10.34.0.250 mask 255.255.255.255
+ timers bgp 5 15
+ neighbor BACKBONE peer-group
+ neighbor BACKBONE remote-as 64512
+ neighbor BACKBONE description RR
+ neighbor BACKBONE password QlZq
+ neighbor BACKBONE update-source Loopback1
+ neighbor BACKBONE route-reflector-client
+ neighbor BACKBONE next-hop-self
+ neighbor BACKBONE send-community
+ neighbor 10.34.6.3 peer-group BACKBONE
+ neighbor 10.34.6.7 peer-group BACKBONE
+ neighbor 10.34.27.1 remote-as 64513
+ neighbor 10.34.27.1 description ZQDS1_JY_COR_7710_1
+ neighbor 10.34.27.1 password QlZq
+ neighbor 10.34.27.1 ebgp-multihop 255
+ neighbor 10.34.27.1 send-community
+ neighbor 10.34.27.5 remote-as 64513
+ neighbor 10.34.27.5 description ZQDS1_JY_COR_7710_2
+ neighbor 10.34.27.5 password QlZq
+ neighbor 10.34.27.5 ebgp-multihop 255
+ neighbor 10.34.27.5 send-community
+ distance bgp 200 200 200
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+!
+
+
+
+
+
+JN-YD#show run
+Building configuration...
+
+Current configuration : 5543 bytes
+!
+! Last configuration change at 18:27:10 UTC Tue Oct 6 2020
+!
+version 16.3
+service config
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname JN-YD
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+
+
+
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9IT5FASDN0H
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+! 
+!         
+! 
+! 
+!
+!
+interface Loopback0
+ ip address 10.34.0.252 255.255.255.255
+!
+interface Loopback1
+ description OSPF_BGP_router-id
+ ip address 10.34.6.3 255.255.255.255
+ ip ospf 100 area 0
+ ip ospf cost 1
+!
+interface GigabitEthernet1
+ ip address dhcp
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ description connect to JY7609-01-G1/45
+ ip address 10.34.27.18 255.255.255.252
+ speed 1000
+ no negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ description connect to JY7609-02-G1/45
+ ip address 10.34.27.22 255.255.255.252
+ speed 1000
+ no negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ description To_ASR1001-LT_G/0/3
+ ip address 10.34.20.2 255.255.255.252
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 QlZq
+ ip ospf network point-to-point
+ ip ospf hello-interval 5
+ ip ospf 100 area 0
+ ip ospf cost 1
+ speed 1000
+ no negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet5
+ description To_ASR1002-JY-DX_G0/0/5
+ ip address 10.34.20.9 255.255.255.252
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 QlZq
+ ip ospf network point-to-point
+ ip ospf hello-interval 5
+ ip ospf 100 area 0
+ ip ospf cost 1
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+!
+router eigrp 144
+ network 10.34.0.252 0.0.0.0
+ network 10.34.8.112 0.0.0.3
+ network 10.34.8.248 0.0.0.3
+ network 10.34.9.49 0.0.0.0
+ network 10.34.9.112 0.0.0.3
+ network 10.34.9.140 0.0.0.3
+ network 10.34.9.144 0.0.0.3
+ network 10.34.9.164 0.0.0.3
+ network 10.34.10.8 0.0.0.3
+ network 10.34.10.56 0.0.0.3
+ network 10.34.10.64 0.0.0.3
+ network 10.34.11.52 0.0.0.3
+ network 10.34.11.56 0.0.0.3
+ network 10.34.11.73 0.0.0.0
+ network 10.34.11.80 0.0.0.3
+ network 10.34.11.204 0.0.0.3
+ network 10.34.11.244 0.0.0.3
+ network 10.34.12.16 0.0.0.3
+ network 10.34.12.52 0.0.0.3
+ network 10.34.12.84 0.0.0.3
+ network 10.34.13.240 0.0.0.3
+ network 10.34.27.16 0.0.0.3
+ network 10.34.27.20 0.0.0.3
+ network 10.68.16.112 0.0.0.3
+ eigrp router-id 10.34.0.252
+!
+router ospf 100
+ router-id 10.34.6.3
+ bfd all-interfaces
+!
+router bgp 64512
+ bgp router-id 10.34.6.3
+ bgp log-neighbor-changes
+ network 1.1.1.1 mask 255.255.255.255
+ network 10.34.0.252 mask 255.255.255.255
+ network 10.34.9.160 mask 255.255.255.252
+ network 10.34.12.84 mask 255.255.255.252
+ network 10.34.20.0 mask 255.255.255.0
+ network 10.68.26.0 mask 255.255.255.252
+ network 10.68.26.4 mask 255.255.255.252
+ timers bgp 5 15
+ neighbor BACKBONE peer-group
+ neighbor BACKBONE remote-as 64512
+ neighbor BACKBONE description Client
+ neighbor BACKBONE password QlZq
+ neighbor BACKBONE update-source Loopback1
+ neighbor BACKBONE route-reflector-client
+ neighbor BACKBONE next-hop-self
+ neighbor BACKBONE send-community
+ neighbor 10.34.6.1 peer-group BACKBONE
+ neighbor 10.34.6.2 peer-group BACKBONE
+ neighbor 10.34.6.4 peer-group BACKBONE
+ neighbor 10.34.6.5 peer-group BACKBONE
+ neighbor 10.34.6.6 peer-group BACKBONE
+ neighbor 10.34.6.7 peer-group BACKBONE
+ neighbor 10.34.6.8 peer-group BACKBONE
+ neighbor 10.34.20.29 remote-as 64517
+ neighbor 10.34.20.29 description ASR1002XJYAPN
+ neighbor 10.34.20.29 password QlZq
+ neighbor 10.34.20.29 send-community
+ neighbor 10.34.27.17 remote-as 64513
+ neighbor 10.34.27.17 description ZQDS1_JY_COR_7710_1
+ neighbor 10.34.27.17 password QlZq
+ neighbor 10.34.27.17 send-community
+ neighbor 10.34.27.21 remote-as 64513
+ neighbor 10.34.27.21 description ZQDS1_JY_COR_7710_2
+ neighbor 10.34.27.21 password QlZq
+ neighbor 10.34.27.21 send-community
+ distance bgp 200 200 200
+!
+!         
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+!
+ip route 1.1.1.1 255.255.255.255 Null0
+!
+!
+access-list 60 permit 10.32.22.38
+access-list 60 permit 10.32.175.245
+access-list 60 permit 10.32.20.237
+access-list 60 permit 10.32.128.82
+access-list 60 permit 10.32.128.81
+access-list 99 permit 10.32.5.38
+access-list 99 permit 10.32.5.58
+access-list 99 permit 10.32.5.15
+access-list 99 permit 10.32.10.20
+access-list 99 permit 10.32.10.95
+access-list 99 permit 10.32.13.190
+access-list 99 permit 10.32.13.189
+access-list 99 permit 10.32.5.153
+access-list 99 permit 10.32.5.152
+access-list 99 permit 10.32.20.237
+access-list 99 permit 10.32.13.198
+access-list 99 permit 10.32.13.197
+access-list 99 permit 10.32.13.194
+access-list 99 permit 10.32.13.193
+access-list 99 permit 10.32.13.206
+access-list 99 permit 10.32.13.205
+access-list 99 permit 10.32.13.202
+access-list 99 permit 10.32.13.201
+access-list 99 permit 10.32.13.210
+access-list 99 permit 10.32.13.209
+access-list 99 permit 10.34.3.0 0.0.0.255
+access-list 99 permit 10.34.4.0 0.0.0.255
+access-list 99 permit 10.34.5.0 0.0.0.255
+access-list 99 permit 10.32.10.0 0.0.0.255
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+JN-DX#show run
+Building configuration...
+
+Current configuration : 5808 bytes
+!
+! Last configuration change at 18:32:01 UTC Tue Oct 6 2020
+!
+version 16.3
+service config
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname JN-DX
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+
+
+
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9EJUGYJRLPK
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+! 
+!         
+! 
+! 
+!
+!
+interface Loopback0
+ ip address 10.34.0.251 255.255.255.255
+!
+interface Loopback1
+ description OSPF_BGP_router-id
+ ip address 10.34.6.2 255.255.255.255
+ ip ospf 100 area 0
+ ip ospf cost 1
+!
+interface GigabitEthernet1
+ ip address dhcp
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ description connect to JY7609-01-G1/44
+ ip address 10.34.27.10 255.255.255.252
+ load-interval 60
+ speed 1000
+ no negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ description connect to JY7609-02-G1/44
+ ip address 10.34.27.14 255.255.255.252
+ load-interval 60
+ speed 1000
+ no negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ description To_ASR1001-LT_G0/0/5
+ ip address 10.34.20.6 255.255.255.252
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 QlZq
+ ip ospf network point-to-point
+ ip ospf hello-interval 5
+ ip ospf 100 area 0
+ ip ospf cost 1
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet5
+ description To_JY_Router_ASR1002YD_JR12_26U_G0/1/2
+ ip address 10.34.20.10 255.255.255.252
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 QlZq
+ ip ospf network point-to-point
+ ip ospf hello-interval 5
+ ip ospf 100 area 0
+ ip ospf cost 1
+ negotiation auto
+ cdp enable
+ no mop enabled
+ no mop sysid
+!
+!
+router eigrp 144
+ network 10.34.0.251 0.0.0.0
+ network 10.34.2.240 0.0.0.3
+ network 10.34.2.244 0.0.0.3
+ network 10.34.2.248 0.0.0.3
+ network 10.34.2.252 0.0.0.3
+ network 10.34.3.19 0.0.0.0
+ network 10.34.8.0 0.0.0.3
+ network 10.34.8.80 0.0.0.3
+ network 10.34.8.88 0.0.0.3
+ network 10.34.8.120 0.0.0.3
+ network 10.34.8.124 0.0.0.3
+ network 10.34.8.128 0.0.0.3
+ network 10.34.8.173 0.0.0.0
+ network 10.34.8.192 0.0.0.3
+ network 10.34.8.200 0.0.0.3
+ network 10.34.8.216 0.0.0.3
+ network 10.34.8.220 0.0.0.3
+ network 10.34.9.4 0.0.0.3
+ network 10.34.9.12 0.0.0.3
+ network 10.34.9.20 0.0.0.3
+ network 10.34.9.24 0.0.0.3
+ network 10.34.9.80 0.0.0.3
+ network 10.34.9.84 0.0.0.3
+ network 10.34.9.92 0.0.0.3
+ network 10.34.9.96 0.0.0.3
+ network 10.34.9.108 0.0.0.3
+ network 10.34.9.116 0.0.0.3
+ network 10.34.9.124 0.0.0.3
+ network 10.34.9.132 0.0.0.3
+ network 10.34.9.136 0.0.0.3
+ network 10.34.9.148 0.0.0.3
+ network 10.34.9.156 0.0.0.3
+ network 10.34.9.160 0.0.0.3
+ network 10.34.9.188 0.0.0.3
+ network 10.34.9.220 0.0.0.3
+ network 10.34.9.228 0.0.0.3
+ network 10.34.10.36 0.0.0.3
+ network 10.34.10.44 0.0.0.3
+ network 10.34.10.52 0.0.0.3
+ network 10.34.10.124 0.0.0.3
+ network 10.34.10.216 0.0.0.3
+ network 10.34.10.240 0.0.0.3
+ network 10.34.11.124 0.0.0.3
+ network 10.34.11.164 0.0.0.3
+ network 10.34.13.104 0.0.0.3
+ network 10.34.13.124 0.0.0.3
+ network 10.34.14.69 0.0.0.0
+ network 10.34.14.92 0.0.0.3
+ network 10.34.14.100 0.0.0.3
+ network 10.34.14.113 0.0.0.0
+ network 10.34.14.141 0.0.0.0
+ network 10.34.27.8 0.0.0.3
+ network 10.34.27.12 0.0.0.3
+ network 10.68.16.109 0.0.0.0
+ eigrp router-id 10.34.0.251
+!
+router ospf 100
+ router-id 10.34.6.2
+ bfd all-interfaces
+!
+router bgp 64512
+ bgp router-id 10.34.6.2
+ bgp log-neighbor-changes
+ network 10.34.0.251 mask 255.255.255.255
+ timers bgp 5 15
+ neighbor BACKBONE peer-group
+ neighbor BACKBONE remote-as 64512
+ neighbor BACKBONE description RR
+ neighbor BACKBONE password QlZq
+ neighbor BACKBONE update-source Loopback1
+ neighbor BACKBONE route-reflector-client
+ neighbor BACKBONE next-hop-self
+ neighbor BACKBONE send-community
+ neighbor 10.34.6.3 peer-group BACKBONE
+ neighbor 10.34.6.7 peer-group BACKBONE
+ neighbor 10.34.27.9 remote-as 64513
+ neighbor 10.34.27.9 description ZQDS1_JY_COR_7710_1
+ neighbor 10.34.27.9 password QlZq
+ neighbor 10.34.27.9 send-community
+ neighbor 10.34.27.13 remote-as 64513
+ neighbor 10.34.27.13 description ZQDS1_JY_COR_7710_2
+ neighbor 10.34.27.13 password QlZq
+ neighbor 10.34.27.13 send-community
+ distance bgp 200 200 200
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+!         
+!
+!
+access-list 60 permit 10.32.22.38
+access-list 60 permit 10.32.175.245
+access-list 60 permit 10.32.20.237
+access-list 60 permit 10.32.128.82
+access-list 60 permit 10.32.128.81
+access-list 99 permit 10.32.5.38
+access-list 99 permit 10.32.5.58
+access-list 99 permit 10.32.5.15
+access-list 99 permit 10.32.10.20
+access-list 99 permit 10.32.10.95
+access-list 99 permit 10.32.13.190
+access-list 99 permit 10.32.13.189
+access-list 99 permit 10.32.5.153
+access-list 99 permit 10.32.5.152
+access-list 99 permit 10.32.20.237
+access-list 99 permit 10.32.13.198
+access-list 99 permit 10.32.13.197
+access-list 99 permit 10.32.13.194
+access-list 99 permit 10.32.13.193
+access-list 99 permit 10.32.13.206
+access-list 99 permit 10.32.13.205
+access-list 99 permit 10.32.13.202
+access-list 99 permit 10.32.13.201
+access-list 99 permit 10.32.13.210
+access-list 99 permit 10.32.13.209
+access-list 99 permit 10.34.3.0 0.0.0.255
+access-list 99 permit 10.34.4.0 0.0.0.255
+access-list 99 permit 10.34.5.0 0.0.0.255
+access-list 99 permit 10.32.10.0 0.0.0.255
+!
+!
+
+
+

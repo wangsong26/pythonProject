@@ -1,0 +1,6 @@
+DEBUG:root:start program
+DEBUG:root:end program
+DEBUG:root:i=1,total=1
+DEBUG:root:i=2,total=2
+DEBUG:root:i=3,total=6
+DEBUG:root:i=4,total=24

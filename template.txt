@@ -1,0 +1,8 @@
+DEPT: <DEPT>
+NAME: <NAME>
+EMAIL:<EMAIL>
+DATE: <YYYYMMDD>
+CONTENT:
+===========================
+1.T0D01
+2.T0D02
